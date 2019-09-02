@@ -1,6 +1,9 @@
 const _ = require('lodash')
 const yup = require('yup')
+const jwt = require('jsonwebtoken')
 const httpStatus = require('http-status-codes')
+
+const config = require('config')
 const { users } = require('../db')
 
 const userSchema = yup.object().shape({
@@ -8,6 +11,8 @@ const userSchema = yup.object().shape({
   password: yup.string().required(),
   applicationId: yup.string().required()
 })
+
+const getToken = user => jwt.sign(user, config.get('JWT_SECRET'), { expiresIn: '1h' })
 
 module.exports = server => {
   server.get('/login', (req, res) => {
@@ -22,7 +27,7 @@ module.exports = server => {
         if (user.locked) {
           res.status(httpStatus.FORBIDDEN).send(httpStatus.getStatusText(httpStatus.FORBIDDEN))
         } else {
-          res.json(user)
+          res.json({ user: user.user, token: getToken(user) })
         }
       }
     }
