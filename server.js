@@ -7,6 +7,7 @@ const router = jsonServer.router(db)
 const PORT = process.env.PORT || 3000
 
 server.use(middlewares)
+server.use(jsonServer.bodyParser)
 require('./routes')(server)
 server.use(router)
 
