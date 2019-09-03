@@ -29,7 +29,7 @@ module.exports = server => {
         if (user.locked) {
           throw Error(httpStatus.FORBIDDEN)
         } else {
-          res.json({ user, token: getToken(user) })
+          res.json({ user: user.user, token: getToken(user) })
         }
       }
     }
@@ -38,6 +38,6 @@ module.exports = server => {
   // refresh token
   server.post('/token', checkToken, (req, res) => {
     const { user } = req
-    res.json({ user, token: getToken(user) })
+    res.json({ user: user.user, token: getToken(user) })
   })
 }
