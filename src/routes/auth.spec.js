@@ -65,7 +65,7 @@ describe('auth', () => {
     it('refresh token success', async () => {
       await request(app)
         .post('/token')
-        .set('Authentication', bearerToken(longExpiryToken))
+        .set('Authorization', bearerToken(longExpiryToken))
         .send()
         .then(res => {
           expect(res).to.have.status(200)
@@ -77,7 +77,7 @@ describe('auth', () => {
     it('refresh token with invalid token', async () => {
       await request(app)
         .post('/token')
-        .set('Authentication', bearerToken('invalid_token'))
+        .set('Authorization', bearerToken('invalid_token'))
         .send()
         .then(res => {
           expect(res).to.have.status(400)
@@ -87,7 +87,7 @@ describe('auth', () => {
     it('refresh token with invalid user in payload', async () => {
       await request(app)
         .post('/token')
-        .set('Authentication', bearerToken(invalidUserToken))
+        .set('Authorization', bearerToken(invalidUserToken))
         .send()
         .then(res => {
           expect(res).to.have.status(401)
@@ -97,7 +97,7 @@ describe('auth', () => {
     it('refresh token with expired token', async () => {
       await request(app)
         .post('/token')
-        .set('Authentication', bearerToken(expiredToken))
+        .set('Authorization', bearerToken(expiredToken))
         .send()
         .then(res => {
           expect(res).to.have.status(400)
