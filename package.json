@@ -2,12 +2,12 @@
   "name": "mock-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "mocha  '**/*.spec.js' --ignore 'node_modules/**/*' --require mocha-init.js",
-    "test:watch": "npm run test -- --watch",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "mocha  '**/*.spec.js' --ignore 'node_modules/**/*' --require src/mocha-init.js --exit",
+    "test:watch": "nodemon -x npm run test",
     "test:output": "DEBUG=log,info,error npm test",
     "coverage": "nyc --reporter html --reporter text npm test"
   },
