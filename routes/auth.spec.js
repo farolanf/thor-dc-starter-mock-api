@@ -1,4 +1,6 @@
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoidXNlcjFAYzEuY29tIiwiYXBwbGljYXRpb25JZCI6ImFwcDEifSwiaWF0IjoxNTY3NDczNjMwLCJleHAiOjI1Njc0NzcyMzB9.eBZFPWCgOghyT0rnyPlqwvS9fWiKk3b4lelil-lPb0I'
+const longExpiryToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoidXNlcjFAYzEuY29tIiwiYXBwbGljYXRpb25JZCI6ImFwcDEifSwiaWF0IjoxNTY3NDczNjMwLCJleHAiOjI1Njc0NzcyMzB9.eBZFPWCgOghyT0rnyPlqwvS9fWiKk3b4lelil-lPb0I'
+const invalidUserToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjotMSwidXNlciI6InVzZXIxQGMxLmNvbSIsImFwcGxpY2F0aW9uSWQiOiJhcHAxIn0sImlhdCI6MTU2NzQ2NDc0MSwiZXhwIjoyNTY3NDY4MzQxfQ.aopyQsMJaFa00S5qXfv5yeg8_0Fo3ABj6o1NUHvFH8o'
+const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoidXNlcjFAYzEuY29tIiwiYXBwbGljYXRpb25JZCI6ImFwcDEifSwiaWF0IjoxNTY3NDc2NDM3LCJleHAiOjE1Njc0ODAwMzd9.5-VEvkcvFmOSd-TZYq5isabbY5yNeiqPzm8go7syyfs'
 
 describe('auth', () => {
 
@@ -63,7 +65,7 @@ describe('auth', () => {
         .post('/token')
         .send({
           user: 'user1@c1.com',
-          token
+          token: longExpiryToken
         })
         .then(res => {
           expect(res).to.have.status(200)
@@ -89,7 +91,7 @@ describe('auth', () => {
         .post('/token')
         .send({
           user: 'user1@c1.com',
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjotMSwidXNlciI6InVzZXIxQGMxLmNvbSIsImFwcGxpY2F0aW9uSWQiOiJhcHAxIn0sImlhdCI6MTU2NzQ2NDc0MSwiZXhwIjoyNTY3NDY4MzQxfQ.aopyQsMJaFa00S5qXfv5yeg8_0Fo3ABj6o1NUHvFH8o'
+          token: invalidUserToken
         })
         .then(res => {
           expect(res).to.have.status(401)
@@ -101,7 +103,7 @@ describe('auth', () => {
         .post('/token')
         .send({
           user: 'user1@c1.com',
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoidXNlcjFAYzEuY29tIiwicGFzc3dvcmQiOiJhYWExMjMiLCJhcHBsaWNhdGlvbklkIjoiYXBwMSJ9LCJpYXQiOjE1Njc0Mjk3NTcsImV4cCI6MTU2NzQzMzM1N30.QzQAo2sIhmUAiZKV2hVXN-cohOPJ386oHTtc--4gxNU'
+          token: expiredToken 
         })
         .then(res => {
           expect(res).to.have.status(400)
