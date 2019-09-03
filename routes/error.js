@@ -10,9 +10,9 @@ module.exports = server => {
     if (err instanceof Error) {
       if (!isNaN(err.message)) {
         status = Number(err.message)
-        console.error(httpStatus.getStatusText(status), err)
+        console.log(httpStatus.getStatusText(status), err)
       } else {
-        console.error(err)
+        console.log(err)
       }
       message = httpStatus.getStatusText(status)
     } else {
