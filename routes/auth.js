@@ -24,7 +24,7 @@ const decodeToken = (token, cb) => jwt.verify(token, config.get('JWT_SECRET'), c
 const safeUser = user => user && _.omit(user, ['password'])
 
 module.exports = server => {
-  server.get('/login', (req, res) => {
+  server.post('/login', (req, res) => {
     const params = _.pick(req.body, ['user', 'password', 'applicationId'])
     if (!userSchema.isValidSync(params)) {
       throw new Error(httpStatus.BAD_REQUEST)
