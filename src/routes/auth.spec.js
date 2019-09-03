@@ -5,9 +5,7 @@ const invalidUserToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkI
 const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VyIjoidXNlcjFAYzEuY29tIiwiYXBwbGljYXRpb25JZCI6ImFwcDEifSwiaWF0IjoxNTY3NDc2NDM3LCJleHAiOjE1Njc0ODAwMzd9.5-VEvkcvFmOSd-TZYq5isabbY5yNeiqPzm8go7syyfs'
 
 describe('auth', () => {
-
   describe('/login', () => {
-
     it('login success', async () => {
       await request(app)
         .post('/login')
@@ -61,7 +59,6 @@ describe('auth', () => {
   })
 
   describe('/token', () => {
-
     it('refresh token success', async () => {
       await request(app)
         .post('/token')
