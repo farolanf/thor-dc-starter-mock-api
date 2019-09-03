@@ -8,7 +8,7 @@ const deviceStatuses = ['unconfigured', 'configured', 'error', 'checkedOut', 'co
 
 const generateDeviceName = () => ['PXM', 'PXG'][faker.random.number() % 2] + faker.random.number() % 1000
 
-const generateDevices = count => _.times(count, () => {
+const generateDevice = () => {
   const status = deviceStatuses[faker.random.number() % (deviceStatuses.length - 1)]
   const ip = faker.internet.ip()
   const subnet = ip.substring(0, ip.lastIndexOf('.')) + '.0'
@@ -34,7 +34,9 @@ const generateDevices = count => _.times(count, () => {
     ip,
     subnet
   }
-})
+}
+
+const generateDevices = count => _.times(count, generateDevice)
 
 module.exports = [
   {
