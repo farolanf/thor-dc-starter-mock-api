@@ -5,6 +5,7 @@ const httpStatus = require('http-status-codes')
 
 const config = require('config')
 const { users } = require('../db')
+const { getBearerToken } = require('../common')
 
 const userSchema = yup.object().shape({
   user: yup.string().required(),
@@ -44,11 +45,11 @@ module.exports = server => {
 
   // refresh token
   server.post('/token', (req, res) => {
-    const params = _.pick(req.body, ['user', 'token'])
-    if (!tokenSchema.isValidSync(params)) {
+    const token = getBearerToken(req)
+    if (!token) {
       throw Error(httpStatus.BAD_REQUEST)
     } else {
-      decodeToken(params.token, (err, payload) => {
+      decodeToken(token, (err, payload) => {
         if (err) {
           throw Error(httpStatus.BAD_REQUEST)
         } else {
