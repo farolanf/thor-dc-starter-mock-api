@@ -8,15 +8,26 @@ const { users } = require('../../db')
 const checkToken = require('../middlewares/checkToken')
 const { safeUser } = require('../common/helpers')
 
+const publicRoutes = config.get('publicRoutes')
+
 const userSchema = yup.object().shape({
   user: yup.string().required(),
   password: yup.string().required(),
   applicationId: yup.string().required()
 })
 
-const getToken = user => jwt.sign({ user }, config.get('JWT_SECRET'), { expiresIn: '1h' })
+const getToken = user => jwt.sign({ user }, config.get('jwtSecret'), { expiresIn: '1h' })
 
 module.exports = server => {
+  // check token on each request except for public routes
+  server.use((req, res, next) => {
+    if (publicRoutes.includes(req.originalUrl)) {
+      next()
+    } else {
+      checkToken(req, res, next)
+    }
+  })
+
   server.post('/login', (req, res) => {
     const params = _.pick(req.body, ['user', 'password', 'applicationId'])
     if (!userSchema.isValidSync(params)) {
@@ -36,7 +47,7 @@ module.exports = server => {
   })
 
   // refresh token
-  server.post('/token', checkToken, (req, res) => {
+  server.post('/token', (req, res) => {
     const { user } = req
     res.json({ user: user.user, token: getToken(user) })
   })

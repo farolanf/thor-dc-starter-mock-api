@@ -5,5 +5,6 @@ faker.seed(123)
 
 module.exports = {
   users: require('./users'),
-  orderItems: require('./orderItems')
+  orderItems: require('./orderItems'),
+  devices: require('./devices')
 }

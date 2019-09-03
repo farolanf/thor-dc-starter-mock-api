@@ -6,7 +6,7 @@ const config = require('config')
 const { users } = require('../../db')
 const { getBearerToken, safeUser } = require('../common/helpers')
 
-const decodeToken = (token, cb) => jwt.verify(token, config.get('JWT_SECRET'), cb)
+const decodeToken = (token, cb) => jwt.verify(token, config.get('jwtSecret'), cb)
 
 module.exports = (req, res, next) => {
   const token = getBearerToken(req)

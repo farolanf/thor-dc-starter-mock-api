@@ -1,3 +1,4 @@
 module.exports = {
-  JWT_SECRET: process.env.JWT_SECRET || 'mySecret'
+  jwtSecret: process.env.JWT_SECRET || 'mySecret',
+  publicRoutes: ['/login']
 }
