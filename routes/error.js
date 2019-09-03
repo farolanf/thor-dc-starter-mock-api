@@ -6,16 +6,23 @@ module.exports = server => {
       return next(err)
     }
     let status = 500
-    if (!isNaN(err.message)) {
-      status = Number(err.message)
-      console.error(httpStatus.getStatusText(status), err)
+    let message
+    if (err instanceof Error) {
+      if (!isNaN(err.message)) {
+        status = Number(err.message)
+        console.error(httpStatus.getStatusText(status), err)
+      } else {
+        console.error(err)
+      }
+      message = httpStatus.getStatusText(status)
     } else {
-      console.error(err)
+      status = err.status
+      message = err.message
     }
     res.status(status).send({
       error: true,
       status,
-      message: httpStatus.getStatusText(status)
+      message
     })
   })
 }
