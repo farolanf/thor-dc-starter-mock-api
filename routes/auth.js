@@ -5,7 +5,6 @@ const httpStatus = require('http-status-codes')
 
 const config = require('config')
 const { users } = require('../db')
-const { sendStatus } = require('../common')
 
 const userSchema = yup.object().shape({
   user: yup.string().required(),
@@ -22,22 +21,22 @@ const getToken = user => jwt.sign({ user }, config.get('JWT_SECRET'), { expiresI
 
 const decodeToken = (token, cb) => jwt.verify(token, config.get('JWT_SECRET'), cb)
 
-const safeUser = user => _.omit(user, ['password'])
+const safeUser = user => user && _.omit(user, ['password'])
 
 module.exports = server => {
   server.get('/login', (req, res) => {
     const params = _.pick(req.body, ['user', 'password', 'applicationId'])
     if (!userSchema.isValidSync(params)) {
-      sendStatus(res, httpStatus.BAD_REQUEST)
+      throw new Error(httpStatus.BAD_REQUEST)
     } else {
-      const user = _.find(users, params)
+      const user = safeUser(_.find(users, params))
       if (!user) {
-        sendStatus(res, httpStatus.UNAUTHORIZED)
+        throw Error(httpStatus.UNAUTHORIZED)
       } else {
         if (user.locked) {
-          sendStatus(res, httpStatus.FORBIDDEN)
+          throw Error(httpStatus.FORBIDDEN)
         } else {
-          res.json({ user: user.user, token: getToken(safeUser(user)) })
+          res.json({ user, token: getToken(user) })
         }
       }
     }
@@ -47,17 +46,17 @@ module.exports = server => {
   server.post('/token', (req, res) => {
     const params = _.pick(req.body, ['user', 'token'])
     if (!tokenSchema.isValidSync(params)) {
-      sendStatus(res, httpStatus.BAD_REQUEST)
+      throw Error(httpStatus.BAD_REQUEST)
     } else {
       decodeToken(params.token, (err, payload) => {
         if (err) {
-          sendStatus(res, httpStatus.BAD_REQUEST)
+          throw Error(httpStatus.BAD_REQUEST)
         } else {
-          const user = _.find(users, _.pick(payload.user, ['id']))
+          const user = safeUser(_.find(users, _.pick(payload.user, ['id'])))
           if (!user) {
-            sendStatus(res, httpStatus.UNAUTHORIZED)
+            throw Error(httpStatus.UNAUTHORIZED)
           } else {
-            res.json({ user: user.user, token: getToken(safeUser(user)) })
+            res.json({ user, token: getToken(user) })
           }
         }
       })
