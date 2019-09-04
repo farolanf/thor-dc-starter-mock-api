@@ -21,7 +21,7 @@ const getToken = user => jwt.sign({ user }, config.get('jwtSecret'), { expiresIn
 module.exports = server => {
   // check token on each request except for public routes
   server.use((req, res, next) => {
-    if (publicRoutes.includes(req.originalUrl)) {
+    if (publicRoutes.includes(req.path)) {
       next()
     } else {
       checkToken(req, res, next)
