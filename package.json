@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "test": "mocha  '**/*.spec.js' --ignore 'node_modules/**/*' --require src/mocha-init.js --exit",
+    "test": "NODE_ENV=test mocha  '**/*.spec.js' --ignore 'node_modules/**/*' --require src/mocha-init.js --exit",
     "test:watch": "nodemon -x npm run test",
     "test:output": "DEBUG=log,info,error npm test",
     "coverage": "nyc --reporter html --reporter text npm test"
@@ -35,6 +35,6 @@
     "standard": "^14.1.0"
   },
   "standard": {
-    "globals": ["describe", "it", "expect", "request", "app"] 
+    "globals": ["describe", "it", "beforeEach", "expect", "request", "app"] 
   }
 }

@@ -5,7 +5,7 @@ const validateFirmwareErrors = ['Timed out', 'Unknown error']
 const uploadConfigErrors = ['Invalid config', 'Timed out', 'Unknown error']
 const rebootErrors = ['Timed out', 'Unknown error']
 
-const maxDelayMs = 3000
+const maxDelayMs = process.env.NODE_ENV === 'test' ? 0 : 3000
 const successChance = 0.7
 
 const randomDelay = fn => setTimeout(fn, Math.random() * maxDelayMs)
