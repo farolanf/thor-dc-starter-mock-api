@@ -6,12 +6,16 @@ const models = ['PXM2260', 'PXG900']
 const deviceStatuses = ['Configured', 'Unconfigured', 'CheckOut', 'Issue']
 const issues = ['Device offline', 'Timed out', 'A firmware update is required', 'Unknown error']
 const compartments = _.times(5, () => _.upperFirst(faker.internet.domainWord()))
+const subnets = ['255.255.255.0', '255.255.240.0', '255.255.128.0', '255.255.0.0']
 
 const sample = arr => arr[faker.random.number() % arr.length]
+
+let id = 1
 
 const generateDevice = orderItemIds => () => {
   const status = sample(deviceStatuses)
   return {
+    id: id++,
     orderItemId: sample(orderItemIds),
     deviceId: faker.random.uuid().substring(0, 4),
     devicePhoto: faker.image.technics(),
@@ -31,7 +35,7 @@ const generateDevice = orderItemIds => () => {
     ptSec: faker.random.number() % 150,
     wiring: `${faker.random.number() % 3 + 1}-phase, ${faker.random.number() % 3 + 1}-wire`,
     ip: faker.internet.ip(),
-    subnet: '255.255.255.0'
+    subnet: sample(subnets)
   }
 }
 
