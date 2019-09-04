@@ -1,4 +1,7 @@
 const { generateDevices } = require('./utils/devices')
+const orderItems = require('./orderItems')
+
+const orderItemIds = orderItems.map(o => o.id)
 
 // generate devices and assign to orderItems
-module.exports = generateDevices(30, [1, 2, 3])
+module.exports = generateDevices(30, orderItemIds)
