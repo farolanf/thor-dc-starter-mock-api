@@ -47,7 +47,7 @@ describe('locate', () => {
   it('filter by orderNumber, itemNumber, and family', async () => {
     const orderNumber = 'o1'
     const itemNumber = 'item2'
-    const family = 'FAM2'
+    const family = 'FAM3'
     await request(app)
       .get('/locate')
       .set('Authorization', bearerToken(token))
@@ -85,7 +85,7 @@ describe('locate', () => {
   it('filter by orderNumber, itemNumber, and deviceId', async () => {
     const orderNumber = 'o1'
     const itemNumber = 'item2'
-    const deviceId = 'bb1e'
+    const deviceId = 'c1c9'
     await request(app)
       .get('/locate')
       .set('Authorization', bearerToken(token))
@@ -104,7 +104,7 @@ describe('locate', () => {
   it('filter by orderNumber, itemNumber, and compartment', async () => {
     const orderNumber = 'o1'
     const itemNumber = 'item2'
-    const compartment = 'Edison'
+    const compartment = 'Mervin'
     await request(app)
       .get('/locate')
       .set('Authorization', bearerToken(token))
@@ -123,7 +123,7 @@ describe('locate', () => {
   it('filter by orderNumber, itemNumber, and ip address', async () => {
     const orderNumber = 'o1'
     const itemNumber = 'item2'
-    const ip = '195.223.210.181'
+    const ip = '167.114.181.169'
     await request(app)
       .get('/locate')
       .set('Authorization', bearerToken(token))
@@ -161,7 +161,7 @@ describe('locate', () => {
   it('filter by orderNumber, itemNumber, and location (text search)', async () => {
     const orderNumber = 'o1'
     const itemNumber = 'item2'
-    const location = '2'
+    const location = '5'
     await request(app)
       .get('/locate')
       .set('Authorization', bearerToken(token))
