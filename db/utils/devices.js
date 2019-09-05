@@ -7,8 +7,11 @@ const deviceStatuses = ['Configured', 'Unconfigured', 'CheckOut', 'Issue']
 const issues = ['Device offline', 'Timed out', 'A firmware update is required', 'Unknown error']
 const compartments = _.times(5, () => _.upperFirst(faker.internet.domainWord()))
 const subnets = ['255.255.255.0', '255.255.240.0', '255.255.128.0', '255.255.0.0']
+const usernames = ['Matt M.', 'Dave L.', 'Will K.']
 
 const sample = arr => arr[faker.random.number() % arr.length]
+
+const isConfigured = status => status === 'Configured' || status === 'CheckOut'
 
 let id = 1
 
@@ -26,7 +29,7 @@ const generateDevice = orderItemIds => () => {
     family: sample(families),
     model: sample(models),
     styleNumber: faker.random.number() % 100,
-    configFilename: status === 'Configured' || status === 'CheckOut' ? faker.lorem.word() + faker.random.number() % 1000 + '.xml' : null,
+    configFilename: isConfigured(status) ? faker.lorem.word() + faker.random.number() % 1000 + '.xml' : null,
     labelName: faker.internet.domainWord().substring(0, 2).toUpperCase() + 'Label.pdf',
     name: _.upperFirst(faker.internet.domainWord()),
     ctPri: faker.random.number() % 9000 + 1000,
@@ -35,7 +38,9 @@ const generateDevice = orderItemIds => () => {
     ptSec: faker.random.number() % 150,
     wiring: `${faker.random.number() % 3 + 1}-phase, ${faker.random.number() % 3 + 1}-wire`,
     ip: faker.internet.ip(),
-    subnet: sample(subnets)
+    subnet: sample(subnets),
+    configuredBy: isConfigured(status) ? sample(usernames) : '',
+    configFileBy: isConfigured(status) ? sample(usernames) : ''
   }
 }
 
