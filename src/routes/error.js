@@ -16,9 +16,6 @@ module.exports = server => {
         console.log(err)
       }
       message = httpStatus.getStatusText(status)
-    } else {
-      status = err.status
-      message = err.message
     }
     res.status(status).send({
       error: true,
