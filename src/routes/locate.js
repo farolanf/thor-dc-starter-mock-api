@@ -52,6 +52,12 @@ module.exports = server => {
       // filter devices by full text search
       orderItem.devices = search(orderItem.devices, _.pick(req.query, ['location']))
     })
+    // inject orderItem
+    filteredOrderItems.forEach(orderItem => {
+      orderItem.devices.forEach(device => {
+        device.orderItem = _.omit(orderItem, 'devices')
+      })
+    })
     const foundDevices = _.flatMap(filteredOrderItems, o => o.devices)
     const configuredCount = _.filter(foundDevices, isConfigured).length
     res.json({

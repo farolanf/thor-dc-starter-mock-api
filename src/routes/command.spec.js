@@ -1,19 +1,4 @@
-const { bearerToken } = require('../common/helpers')
-
-let token
-
-const login = async () => {
-  await request(app)
-    .post('/login')
-    .send({
-      user: 'user1@c1.com',
-      password: 'aaa123',
-      applicationId: 'app1'
-    })
-    .then(res => {
-      token = res.body.token
-    })
-}
+const { bearerToken, login } = require('../common/helpers')
 
 const expectSuccessOrError = res => {
   expect(res).to.have.status(200)
@@ -24,7 +9,11 @@ const expectSuccessOrError = res => {
 }
 
 describe('command', () => {
-  beforeEach(login)
+  let token
+
+  beforeEach(async () => {
+    token = await login()
+  })
 
   it('/command/program responded with success or error', async () => {
     await request(app)
