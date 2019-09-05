@@ -44,7 +44,7 @@ module.exports = server => {
   // is not supported by json-server, so we need to write our own.
   server.get('/locate', (req, res) => {
     // filter orderItems
-    const filteredOrderItems = filter(orderItems, _.pick(req.query, ['orderNumber', 'itemNumber']))
+    const filteredOrderItems = _.cloneDeep(filter(orderItems, _.pick(req.query, ['orderNumber', 'itemNumber'])))
     filteredOrderItems.forEach(orderItem => {
       const query = Object.assign({}, req.query, { orderItemId: orderItem.id })
       // filter devices by full match params
